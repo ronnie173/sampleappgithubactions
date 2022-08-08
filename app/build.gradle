@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.example.sampleappgithubactions'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.sampleappgithubactions"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -19,6 +19,13 @@ android {
             useSupportLibrary true
         }
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "app-${variant.productFlavors[0].name}-${variant.buildType.name}-${variant.versionName}.apk"
+        }
+    }
+
 
     buildTypes {
         release {
@@ -44,7 +51,33 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    flavorDimensions 'env'
+    productFlavors {
+        dev {
+            dimension 'env'
+            resValue "string", "app_name", "Sample App Github Actions Dev"
+
+        }
+        qa {
+            dimension 'env'
+            resValue "string", "app_name", "Sample App Github Actions Qa"
+
+        }
+        training {
+            dimension 'env'
+            resValue "string", "app_name", "Sample App Github Actions Training"
+
+        }
+        prod {
+            resValue "string", "app_name", "Sample App Github Actions Prod"
+
+            dimension 'env'
+        }
+    }
+
 }
+
+
 
 dependencies {
 
